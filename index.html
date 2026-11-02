@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АИС «Изготовление и заказ мебели» — SPA Прототип</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <span class="brand-logo" aria-hidden="true">🪑</span>
+                <div>
+                    <h1 class="brand-title">АИС «Мебель-Заказ»</h1>
+                    <p class="brand-subtitle">Изготовление и заказ корпусной мебели (SPA Prototype)</p>
+                </div>
+            </div>
+
+            <nav class="main-nav" aria-label="Основная навигация">
+                <ul class="nav-list">
+                    <li><a href="#screen-catalog" class="nav-link active">Каталог и Поиск</a></li>
+                    <li><a href="#screen-order-form" class="nav-link">Разместить заказ</a></li>
+                    <li><a href="#screen-orders-manage" class="nav-link">Мои заказы (CRUD)</a></li>
+                    <li><a href="#screen-auth" class="nav-link">Вход</a></li>
+                    <li><a href="#screen-error" class="nav-link nav-link-error">Экран Ошибки</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-panel">
+                <span class="user-role">Роль: <strong>Клиент</strong> (Иванов И.И.)</span>
+                <a href="#screen-auth" class="btn btn-outline btn-sm">Сменить аккаунт</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="site-main container">
+
+        <aside class="wireframe-banner" aria-label="Информация о прототипе">
+            <strong>Примечание к прототипу (Wireframe Guide):</strong> 
+            Страница демонстрирует все состояния Single Page Application (SPA). Навигация в шапке и кнопки внутри форм связаны якорными ссылками (<code>#screen-...</code>) для демонстрации переходов между экранами до подключения JavaScript-роутера.
+        </aside>
+
+        <section id="screen-catalog" class="spa-screen">
+            <header class="screen-header">
+                <div>
+                    <span class="screen-badge">Экран 1: Поиск и просмотр информации</span>
+                    <h2>Каталог типовой мебели и поиск моделей</h2>
+                </div>
+                <a href="#screen-order-form" class="btn btn-primary">+ Оформить индивидуальный заказ</a>
+            </header>
+
+            <form class="filter-bar" action="#" method="get">
+                <div class="form-group filter-search">
+                    <label for="search-input">Поиск по названию или артикулу:</label>
+                    <input type="search" id="search-input" placeholder="Например: Шкаф-купе, Стол лофт, STD-102...">
+                </div>
+
+                <div class="form-group">
+                    <label for="filter-category">Категория мебели:</label>
+                    <select id="filter-category">
+                        <option value="all">Все категории</option>
+                        <option value="wardrobes">Шкафы и гардеробные</option>
+                        <option value="tables">Столы и рабочие зоны</option>
+                        <option value="kitchens">Кухонные гарнитуры</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filter-material">Материал корпуса:</label>
+                    <select id="filter-material">
+                        <option value="all">Любой материал</option>
+                        <option value="oak">ЛДСП Дуб Сонома</option>
+                        <option value="mdf">МДФ Эмаль</option>
+                        <option value="pine">Массив сосны</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="sort-select">Сортировка:</label>
+                    <select id="sort-select">
+                        <option value="price-asc">По цене (сначала дешевле)</option>
+                        <option value="price-desc">По цене (сначала дороже)</option>
+                        <option value="popular">По популярности</option>
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-secondary">Применить фильтры</button>
+                    <button type="reset" class="btn btn-ghost">Сбросить</button>
+                </div>
+            </form>
+
+            <p class="wireframe-hint">
+                &#8594; <em>[JS Action]: При изменении селектов сортировки и фильтрации вызывается метод <code>OrderController.filterCatalog()</code> без перезагрузки страницы.</em>
+            </p>
+
+            <div class="catalog-grid">
+                <article class="product-card">
+                    <div class="product-img-placeholder">Фото: Шкаф-купе «Норд» (2400x1800x600)</div>
+                    <div class="product-body">
+                        <span class="product-code">Артикул: STD-101</span>
+                        <h3>Шкаф-купе «Норд»</h3>
+                        <p class="product-desc">Материал: ЛДСП Дуб Сонома, зеркальные фасады, профиль алюминий.</p>
+                        <p class="product-price">1 200.00 BYN</p>
+                        <div class="product-actions">
+                            <a href="#screen-order-form" class="btn btn-primary btn-sm">Выбрать и заказать</a>
+                            <button type="button" class="btn btn-outline btn-sm">Подробнее</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-img-placeholder">Фото: Стол письменный «Лофт» (1400x750x700)</div>
+                    <div class="product-body">
+                        <span class="product-code">Артикул: STD-204</span>
+                        <h3>Стол письменный «Лофт»</h3>
+                        <p class="product-desc">Материал: Массив дуба, металлический каркас черного цвета.</p>
+                        <p class="product-price">650.00 BYN</p>
+                        <div class="product-actions">
+                            <a href="#screen-order-form" class="btn btn-primary btn-sm">Выбрать и заказать</a>
+                            <button type="button" class="btn btn-outline btn-sm">Подробнее</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-img-placeholder">Фото: Комод «Сканди» (1000x900x450)</div>
+                    <div class="product-body">
+                        <span class="product-code">Артикул: STD-309</span>
+                        <h3>Комод «Сканди» на 4 ящика</h3>
+                        <p class="product-desc">Материал: МДФ матовый белый, направляющие скрытого монтажа с доводчиком.</p>
+                        <p class="product-price">480.00 BYN</p>
+                        <div class="product-actions">
+                            <a href="#screen-order-form" class="btn btn-primary btn-sm">Выбрать и заказать</a>
+                            <button type="button" class="btn btn-outline btn-sm">Подробнее</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="pagination-block">
+                <button type="button" class="btn btn-outline">Загрузить дополнительные позиции (Показать ещё 6)</button>
+                <nav class="pagination-pages" aria-label="Постраничная навигация">
+                    <button type="button" class="page-btn active" aria-current="page">1</button>
+                    <button type="button" class="page-btn">2</button>
+                    <button type="button" class="page-btn">3</button>
+                    <span class="page-dots">...</span>
+                    <button type="button" class="page-btn">8</button>
+                </nav>
+                <p class="wireframe-hint">
+                    &#8594; <em>[Wireframe note]: Button loads next batch of items into the grid above via AJAX.</em>
+                </p>
+            </div>
+        </section>
+
+        <section id="screen-order-form" class="spa-screen">
+            <header class="screen-header">
+                <div>
+                    <span class="screen-badge">Экран 2: Добавление и редактирование информации (OrderFormView)</span>
+                    <h2>Оформление и редактирование заказа мебели</h2>
+                </div>
+                <a href="#screen-catalog" class="btn btn-ghost">&#8592; Вернуться в каталог</a>
+            </header>
+
+            <form class="order-form" action="#" method="post">
+                <fieldset class="form-fieldset">
+                    <legend>1. Выбор типа заказа и параметров изделия</legend>
+                    
+                    <div class="radio-group">
+                        <label class="radio-card">
+                            <input type="radio" name="orderType" value="standard" checked>
+                            <span><strong>Стандартная мебель из каталога</strong> (StandardFurniture)</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="orderType" value="custom">
+                            <span><strong>Индивидуальный проект по описанию и фото</strong> (CustomFurniture)</span>
+                        </label>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="item-model">Модель изделия (из каталога) *:</label>
+                            <select id="item-model" required>
+                                <option value="STD-101">STD-101 — Шкаф-купе «Норд»</option>
+                                <option value="STD-204">STD-204 — Стол письменный «Лофт»</option>
+                                <option value="STD-309">STD-309 — Комод «Сканди»</option>
+                                <option value="CUSTOM">Индивидуальная модель (не из списка)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-dimensions">Требуемые габариты (ВxШxГ, мм) *:</label>
+                            <input type="text" id="item-dimensions" value="2400x1800x600" placeholder="Например: 2400x1800x600" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-wood">Материал корпуса (вид дерева / плиты) *:</label>
+                            <select id="item-wood" required>
+                                <option value="oak">ЛДСП Дуб Сонома (45 BYN/м²)</option>
+                                <option value="pine">Массив сосны (85 BYN/м²)</option>
+                                <option value="mdf">МДФ Крашеный белый (70 BYN/м²)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-hardware">Тип фурнитуры и комплектующих *:</label>
+                            <select id="item-hardware" required>
+                                <option value="standard">Стандарт (роликовые направляющие)</option>
+                                <option value="premium">Премиум с доводчиками (Blum / Hettich)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-qty">Количество изделий (шт.) *:</label>
+                            <input type="number" id="item-qty" min="1" max="50" value="1" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-fieldset fieldset-accent">
+                    <legend>2. Индивидуальные пожелания и эскиз (Опционально — прецедент &laquo;extend&raquo;)</legend>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="custom-desc">Словесное описание нестандартной мебели:</label>
+                            <textarea id="custom-desc" rows="3" placeholder="Опишите конструкцию, количество полок, наличие зеркал, подсветки..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-photo">Приложить фото образца или чертеж (JPG, PNG, PDF):</label>
+                            <input type="file" id="custom-photo" accept=".jpg,.jpeg,.png,.pdf">
+                            <small class="field-help">Максимальный размер файла: 10 МБ.</small>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <legend>3. Контактные данные клиента и способ оплаты</legend>
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label for="client-name">ФИО заказчика *:</label>
+                            <input type="text" id="client-name" value="Иванов Иван Иванович" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-phone">Контактный телефон *:</label>
+                            <input type="tel" id="client-phone" value="+375 (29) 123-45-67" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-email">Электронная почта (для отправки счёта) *:</label>
+                            <input type="email" id="client-email" value="ivanov@mail.ru" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="client-address">Адрес доставки и установки *:</label>
+                        <input type="text" id="client-address" value="г. Минск, пр. Независимости, д. 4, кв. 12" required>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="label-text">Способ оплаты *:</span>
+                        <div class="radio-group">
+                            <label class="radio-card">
+                                <input type="radio" name="paymentMethod" value="bank" checked>
+                                <span>Банковский перевод на счет (по реквизитам из Email)</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="paymentMethod" value="terminal">
+                                <span>Через переносную кассу (терминал) при доставке</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="paymentMethod" value="cash">
+                                <span>Наличными мастеру по установке</span>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-footer-actions">
+                    <button type="submit" class="btn btn-primary">Подтвердить и отправить заявку</button>
+                    <button type="button" class="btn btn-secondary">Сохранить изменения (Режим редактирования)</button>
+                    <a href="#screen-error" class="btn btn-danger-outline">Симулировать ошибку валидации &#8594;</a>
+                </div>
+                <p class="wireframe-hint">
+                    &#8594; <em>[Wireframe link]: Кнопка «Подтвердить» вызывает <code>OrderController.createOrder()</code>, добавляет заказ в список ниже и инициирует отправку письма через <code>EmailNotificationService</code>.</em>
+                </p>
+            </form>
+        </section>
+
+        <section id="screen-orders-manage" class="spa-screen">
+            <header class="screen-header">
+                <div>
+                    <span class="screen-badge">Экран 3: Просмотр состояния, редактирование и удаление (CRUD)</span>
+                    <h2>Реестр заказов и отслеживание статуса</h2>
+                </div>
+                <div class="header-Inline-controls">
+                    <button type="button" class="btn btn-outline btn-sm">Сортировать по дате &#8595;</button>
+                    <button type="button" class="btn btn-outline btn-sm">Фильтр: Только активные</button>
+                </div>
+            </header>
+
+            <div class="orders-list" role="region" aria-label="Список заказов">
+                <div class="orders-grid-header" aria-hidden="true">
+                    <span>№ Заказа / Дата</span>
+                    <span>Изделие и параметры</span>
+                    <span>Сумма / Предоплата</span>
+                    <span>Текущий статус</span>
+                    <span>Действия (CRUD)</span>
+                </div>
+
+                <article class="orders-grid-row">
+                    <div>
+                        <strong>Заказ #101</strong>
+                        <span class="text-muted">от 15.10.2026</span>
+                    </div>
+                    <div>
+                        <strong>Шкаф-купе индивидуальный</strong>
+                        <span class="text-muted">2400x1800x600, ЛДСП Дуб Сонома, зеркала</span>
+                    </div>
+                    <div>
+                        <strong>1 500.00 BYN</strong>
+                        <span class="text-muted">Аванс (30%): 450.00 BYN (Счет INV-2026-101)</span>
+                    </div>
+                    <div>
+                        <span class="status-badge status-queue">В очереди (Ожидает дизайнера)</span>
+                    </div>
+                    <div class="row-actions">
+                        <a href="#screen-order-form" class="btn btn-outline btn-sm" title="Редактировать параметры заказа">Изменить</a>
+                        <button type="button" class="btn btn-danger btn-sm" title="Отменить и удалить заказ">Удалить</button>
+                    </div>
+                </article>
+
+                <article class="orders-grid-row">
+                    <div>
+                        <strong>Заказ #098</strong>
+                        <span class="text-muted">от 02.10.2026</span>
+                    </div>
+                    <div>
+                        <strong>Стол письменный «Лофт» (STD-204)</strong>
+                        <span class="text-muted">1400x750x700, Массив дуба</span>
+                    </div>
+                    <div>
+                        <strong>650.00 BYN</strong>
+                        <span class="text-muted">Оплачено полностью (Чек #8841)</span>
+                    </div>
+                    <div>
+                        <span class="status-badge status-done">Выполнен (Хранение 10 лет)</span>
+                    </div>
+                    <div class="row-actions">
+                        <button type="button" class="btn btn-outline btn-sm">Чек PDF</button>
+                        <button type="button" class="btn btn-ghost btn-sm" disabled>Удаление запрещено</button>
+                    </div>
+                </article>
+            </div>
+
+            <p class="wireframe-hint">
+                &#8594; <em>[Wireframe note]: Кнопка «Изменить» открывает Экран 2 с предзаполненными полями выбранного заказа. Кнопка «Удалить» удаляет запись со статусом «В очереди».</em>
+            </p>
+        </section>
+
+        <div class="split-screens">
+            
+            <section id="screen-auth" class="spa-screen">
+                <header class="screen-header">
+                    <div>
+                        <span class="screen-badge">Экран 4: Форма авторизации</span>
+                        <h2>Вход в систему АИС</h2>
+                    </div>
+                </header>
+
+                <form class="auth-form" action="#" method="post">
+                    <div class="form-group">
+                        <label for="auth-login">Логин или Email пользователя *:</label>
+                        <input type="text" id="auth-login" placeholder="ivanov@mail.ru" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="auth-pass">Пароль *:</label>
+                        <input type="password" id="auth-pass" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="auth-role">Роль в системе (для демонстрации доступов):</label>
+                        <select id="auth-role">
+                            <option value="client">Клиент (Заказчик мебели)</option>
+                            <option value="designer">Дизайнер (Согласование макетов)</option>
+                            <option value="manager">Менеджер цеха (Выработка и смены)</option>
+                            <option value="warehouse">Специалист по учёту (Склад и материалы)</option>
+                            <option value="accountant">Бухгалтер (Накладные расходы)</option>
+                            <option value="director">Руководитель (Аналитические отчёты)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-footer-actions">
+                        <button type="submit" class="btn btn-primary">Войти в систему</button>
+                        <button type="button" class="btn btn-ghost">Забыли пароль?</button>
+                    </div>
+                    <p class="wireframe-hint">
+                        &#8594; <em>[Link to #screen-catalog]: После успешной проверки учетных данных открывается рабочий экран выбранной роли.</em>
+                    </p>
+                </form>
+            </section>
+
+            <section id="screen-error" class="spa-screen screen-error-box">
+                <header class="screen-header">
+                    <div>
+                        <span class="screen-badge badge-danger">Экран 5: Состояние «Ошибка»</span>
+                        <h2>Обработка исключительных ситуаций</h2>
+                    </div>
+                </header>
+
+                <article class="error-card">
+                    <h3>Ошибка 400: Не заполнены обязательные поля (Поток 4А)</h3>
+                    <p>Система обнаружила пропуск критических параметров при оформлении заказа:</p>
+                    <ul class="error-list">
+                        <li>Поле <strong>«Адрес доставки»</strong> не может быть пустым;</li>
+                        <li>Прикрепленный файл эскиза превышает допустимый размер (10 МБ).</li>
+                    </ul>
+                    <div class="error-actions">
+                        <a href="#screen-order-form" class="btn btn-primary btn-sm">&#8592; Вернуться к заполнению формы (Шаг 4)</a>
+                    </div>
+                </article>
+
+                <article class="error-card error-card-warning">
+                    <h3>Предупреждение SMTP: Сбой отправки Email (Поток 9А)</h3>
+                    <p>Заказ <strong>#101</strong> успешно зарегистрирован в базе данных со статусом «В очереди», однако внешний почтовый сервер временно недоступен.</p>
+                    <p class="requisites-box">
+                        <strong>Сохраните реквизиты вручную:</strong> Р/с BY12 ALFA 3012 1111 2222 3333 0000, УНП 190000111, сумма предоплаты: 450.00 BYN.
+                    </p>
+                    <div class="error-actions">
+                        <button type="button" class="btn btn-secondary btn-sm">Повторить отправку письма</button>
+                        <a href="#screen-orders-manage" class="btn btn-outline btn-sm">Перейти к списку заказов</a>
+                    </div>
+                </article>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <h3>АИС «Изготовление и заказ мебели»</h3>
+                <p>Информационная система автоматизации мебельного производства (Вариант 35).</p>
+                <p class="text-muted">Регламент хранения архивных заказов в БД: 10 лет с даты создания.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Быстрые ссылки (Wireframe Navigation)</h3>
+                <ul class="footer-links">
+                    <li><a href="#screen-catalog">Каталог изделий</a></li>
+                    <li><a href="#screen-order-form">Форма заказа</a></li>
+                    <li><a href="#screen-orders-manage">Проверка статуса заказа</a></li>
+                    <li><a href="#screen-auth">Авторизация персонала</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Техническая поддержка</h3>
+                <p>Адрес: г. Минск, пр. Независимости, 4</p>
+                <p>Email: support@mebel-zakaz.by | Статус сервера: <span class="server-online">● 24/7 Online</span></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
